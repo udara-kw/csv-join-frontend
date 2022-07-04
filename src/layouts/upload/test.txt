@@ -1,0 +1,189 @@
+import React, {useState} from "react"
+import {
+    Grid,
+    makeStyles,
+    Card,
+    CardContent,
+    MenuItem,
+    InputLabel,
+    Select,
+    CardActions,
+    Button,
+    CardHeader,
+    FormControl,
+} from "@material-ui/core"
+import TextField from "@material-ui/core/TextField";
+import Box from "@material-ui/core/Box";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
+import {DropzoneAreaBase} from "material-ui-dropzone";
+
+// import { Formik, Form, Field } from "formik"
+// import * as Yup from "yup"
+// import { TextField } from "formik-material-ui"
+
+const useStyle = makeStyles((theme) => ({
+    padding: {
+        padding: theme.spacing(3),
+    },
+    button: {
+        margin: theme.spacing(1),
+    },
+}))
+
+//Data
+const initialValues = {
+    firstName: "",
+    lastName: "",
+    occupation: "",
+    city: "",
+    country: "",
+    email: "",
+    password: "",
+}
+
+const options = [
+    { label: "Computer Programmer", value: "Computer_programmer" },
+    { label: "Web Developer", value: "web_developer" },
+    { label: "User Experience Designer", value: "user_experience_designer" },
+    { label: "Systems Analyst", value: "systems_analyst" },
+    { label: "Quality Assurance Tester", value: "quality_assurance_tester" },
+]
+
+//password validation
+const lowercaseRegEx = /(?=.*[a-z])/
+const uppercaseRegEx = /(?=.*[A-Z])/
+const numericRegEx = /(?=.*[0-9])/
+const lengthRegEx = /(?=.{6,})/
+
+//validation schema
+
+
+const UserForm = () => {
+
+    const [open, setOpen] = useState(false);
+    const [values, setValues] = useState([]);
+    const [text, setText] = useState("");
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+        setValues([]);
+    };
+    const handleChangeText = (e) => {
+        setText(e.target.value);
+    };
+    const addValue = () => {
+        setValues([...values, ""]);
+    };
+    const handleValueChange = (index, e) => {
+        const updatedValues = values.map((value, i) => {
+            if (i === index) {
+                return e.target.value;
+            } else {
+                return value;
+            }
+        });
+        setValues(updatedValues);
+    };
+    const deleteValue = (jump) => {
+        setValues(values.filter((j) => j !== jump));
+    };
+
+    //drag and drop
+    const [files, setFiles] = useState([]);
+
+    const handleAdd = (newFiles) => {
+        const Files = newFiles.filter((file) => !files.find((f) => f.data === file.data));
+        setFiles([...files, ...Files]);
+    };
+
+    const handleDelete = (deleted) => {
+        setFiles(files.filter((f) => f !== deleted));
+    };
+
+    return (
+        <Grid md={10} align='center' container justify="center">
+            <Grid item md={6}>
+                <Card>
+                    <CardHeader title="Insert New Document"></CardHeader>
+                                <form  mt={6}>
+                                    <CardContent>
+                                        <Grid>
+                                            {/*<Grid>*/}
+                                            {/*    <TextField*/}
+                                            {/*        id="outlined-multiline-flexible"*/}
+                                            {/*        label="Multiline"*/}
+                                            {/*        multiline*/}
+                                            {/*        maxRows={8}*/}
+
+                                            {/*    />*/}
+                                            {/*</Grid>*/}
+                                            <Grid>
+                                                <TextField
+                                                    autoFocus
+                                                    margin="dense"
+                                                    value={text}
+                                                    onChange={handleChangeText}
+                                                    label="Tags"
+                                                    fullWidth
+
+                                                />
+                                                {values.map((jump, index) => (
+                                                    <Box key={"jump" + index}>
+                                                        <Grid container spacing={1} alignItems="flex-end">
+                                                            <Grid item xs={10}>
+                                                                <TextField
+                                                                    autoFocus
+                                                                    margin="dense"
+                                                                    label="Tags"
+                                                                    value={jump || ""}
+                                                                    onChange={(e) => handleValueChange(index, e)}
+                                                                    fullWidth
+                                                                />
+                                                            </Grid>
+                                                            <Grid item xs={2}>
+                                                                <div
+                                                                    className="font-icon-wrapper"
+                                                                    onClick={() => deleteValue(jump)}
+                                                                >
+                                                                    <IconButton aria-label="delete">
+                                                                        <DeleteIcon />
+                                                                    </IconButton>
+                                                                </div>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Box>
+                                                ))}
+                                                <Button onClick={addValue} color="primary">
+                                                    Add
+                                                </Button>
+                                            </Grid>
+                                            <Grid>
+                                                <DropzoneAreaBase
+                                                    fileObjects={files}
+                                                    onAdd={handleAdd}
+                                                    onDelete={handleDelete}
+                                                />
+                                            </Grid>
+                                        </Grid>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            type="Submit"
+                                        >
+                                            Insert
+                                        </Button>
+                                    </CardActions>
+                                </form>
+                </Card>
+            </Grid>
+        </Grid>
+    )
+}
+
+export default UserForm
