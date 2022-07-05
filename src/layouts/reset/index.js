@@ -35,6 +35,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MDInput from "../../components/MDInput";
 import MDAlert from "../../components/MDAlert";
+import { changePassword } from "../../services";
 
 const schema = yup.object().shape({
   password: yup
@@ -78,7 +79,7 @@ function Reset() {
     console.log(errMsg);
     console.log(errCode);
     try {
-      const response = "from backend";
+      const response = changePassword(values.oldPassword, values.newPassword);
 
       if (response) {
         setErrCode(200);
@@ -159,8 +160,8 @@ function Reset() {
                   validationSchema={schema}
                   onSubmit={handleSubmit}
                   initialValues={{
-                    password: "",
-                    conformPassword: "",
+                    oldPassword: "",
+                    newPassword: "",
                   }}
                 >
                   {/* eslint-disable-next-line no-shadow */}
@@ -179,12 +180,12 @@ function Reset() {
                     <MDBox component="form" role="form" onSubmit={handleSubmit}>
                       <MDBox mb={2}>
                         <MDInput
-                          label="new password"
+                          label="Old Password"
                           type="password"
-                          id="password"
-                          name="password"
+                          id="oldPassword"
+                          name="oldPassword"
                           placeholder=""
-                          value={values.password}
+                          value={values.oldPassword}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={!!(touched.password && errors.email)}
@@ -196,12 +197,12 @@ function Reset() {
                       </MDBox>
                       <MDBox mb={2}>
                         <MDInput
-                          label="conform password"
+                          label="New Password"
                           type="password"
-                          id="conformPassword"
-                          name="conformPassword"
+                          id="newPassword"
+                          name="newPassword"
                           placeholder=""
-                          value={values.conformPassword}
+                          value={values.newPassword}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={!!(touched.conformPassword && errors.conformPassword)}

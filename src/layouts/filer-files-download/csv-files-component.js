@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { Download } from "@mui/icons-material";
+import fileDownload from "js-file-download";
 import MDBox from "../../components/MDBox";
-import { getCSVData } from "../../services";
+import { downloadCSVFiles, getCSVData } from "../../services";
 
 export default function CSVFileDownload() {
   const [csvColumns, setCsvColumns] = useState([]);
@@ -25,14 +26,24 @@ export default function CSVFileDownload() {
   }
 
   const [selectedRows, setSelectedRows] = useState([]);
+
+  async function downloadFiles() {
+    const data = await downloadCSVFiles([...new Set(selectedRows.map((row) => row.filename))]);
+    data.forEach((file) => {
+      fileDownload(file.content, file.filename);
+    });
+  }
+
   return (
     <>
       <MDBox display="flex" justifyContent="flex-end">
-        {selectedRows.length > 0 ? (
+        {selectedRows.length >= 0 ? (
           <Button
             xs={{ mb: 3 }}
             size="large"
-            onClick={() => console.log(JSON.stringify(selectedRows))}
+            onClick={() => {
+              downloadFiles();
+            }}
             endIcon={<Download />}
           >
             Download

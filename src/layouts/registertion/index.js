@@ -35,6 +35,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MDInput from "../../components/MDInput";
 import MDAlert from "../../components/MDAlert";
+import { registerNewUser } from "../../services";
 
 const schema = yup.object().shape({
   username: yup.string().required("name is required").min(8).label("Name"),
@@ -79,7 +80,12 @@ function Registration() {
     console.log(errMsg);
     console.log(errCode);
     try {
-      const response = "from backend";
+      const response = registerNewUser(
+        values.username,
+        values.email,
+        values.password,
+        values.master_secret
+      );
 
       if (response) {
         setErrCode(200);
@@ -163,6 +169,7 @@ function Registration() {
                     username: "",
                     email: "",
                     password: "",
+                    master_secret: "",
                   }}
                 >
                   {/* eslint-disable-next-line no-shadow */}
@@ -181,7 +188,7 @@ function Registration() {
                     <MDBox component="form" role="form" onSubmit={handleSubmit}>
                       <MDBox mb={2}>
                         <MDInput
-                          label="username"
+                          label="Username"
                           type="text"
                           id="username"
                           name="username"
@@ -198,7 +205,7 @@ function Registration() {
                       </MDBox>
                       <MDBox mb={2}>
                         <MDInput
-                          label="email"
+                          label="Email"
                           type="text"
                           id="email"
                           name="email"
@@ -213,12 +220,29 @@ function Registration() {
                       </MDBox>
                       <MDBox mb={2}>
                         <MDInput
-                          label="password"
+                          label="New Password"
                           type="password"
                           id="password"
                           name="password"
                           placeholder=""
                           value={values.password}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={!!(touched.password && errors.email)}
+                          fullWidth
+                        />
+                        <p style={myStyle}>
+                          {touched.password && errors.password ? errors.password : ""}
+                        </p>
+                      </MDBox>
+                      <MDBox mb={2}>
+                        <MDInput
+                          label="Master Secret Code"
+                          type="password"
+                          id="master_secret"
+                          name="master_secret"
+                          placeholder=""
+                          value={values.master_secret}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           error={!!(touched.password && errors.email)}
