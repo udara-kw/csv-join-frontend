@@ -81,7 +81,7 @@ function Registration() {
     console.log(errMsg);
     console.log(errCode);
     try {
-      const response = registerNewUser(
+      const response = await registerNewUser(
         values.username,
         values.email,
         values.password,

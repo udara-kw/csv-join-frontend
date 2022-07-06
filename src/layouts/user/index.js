@@ -33,47 +33,42 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useEffect, useState } from "react";
 import MDButton from "../../components/MDButton";
+// eslint-disable-next-line import/named
+import { deleteExistingUser, viewAllUsers } from "../../services";
 
 function Tables() {
   const [open, setOpen] = useState(false);
+  const [selectedUsername, setSelectedUsername] = useState("");
   const [rowsData, setRowsData] = useState([]);
-  const handleClickOpen = () => {
+  async function retrieveUserData() {
+    try {
+      const res = await viewAllUsers();
+      setRowsData(res.data);
+      // eslint-disable-next-line no-empty
+    } catch (e) {}
+  }
+  const handleClickOpen = (username) => {
+    setSelectedUsername(username);
     setOpen(true);
   };
   const handleClose = () => {
+    setSelectedUsername("");
     setOpen(false);
+  };
+  const deleteUser = () => {
+    deleteExistingUser(selectedUsername);
+    setOpen(false);
+    setSelectedUsername("");
+    window.location.reload();
   };
   useEffect(() => {
     // eslint-disable-next-line no-use-before-define
     retrieveUserData();
   }, []);
-
-  async function retrieveUserData() {
-    try {
-      const rows = [
-        {
-          name: "Hanny Baniard",
-          position: "Data Coordiator",
-          office: "Baorixile",
-          age: 42,
-          startDate: "4/11/2021",
-        },
-        {
-          name: "Lara Puleque",
-          position: "Payment Adjustment Coordinator",
-          office: "Cijangkar",
-          age: 47,
-          startDate: "8/2/2021",
-        },
-      ];
-      setRowsData(rows);
-      // eslint-disable-next-line no-empty
-    } catch (e) {}
-  }
   const columns = [
     { Header: "name", accessor: "name", width: "25%" },
-    { Header: "email", accessor: "position", width: "30%" },
-    { Header: "insert date", accessor: "office" },
+    { Header: "email", accessor: "email", width: "30%" },
+    { Header: "role", accessor: "role" },
     { Header: "action", accessor: "action", width: "12%" },
   ];
   return (
@@ -104,7 +99,15 @@ function Tables() {
                     columns,
                     rows: rowsData.map((row) => ({
                       ...row,
-                      action: <Icon onClick={handleClickOpen}>edit</Icon>,
+                      action: (
+                        <Icon
+                          onClick={() => {
+                            handleClickOpen(row.name);
+                          }}
+                        >
+                          edit
+                        </Icon>
+                      ),
                     })),
                   }}
                 />
@@ -129,7 +132,7 @@ function Tables() {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <MDButton variant="gradient" color="info" onClick={handleClose}>
+            <MDButton variant="gradient" color="info" onClick={deleteUser}>
               Delete
             </MDButton>
             <MDButton variant="gradient" color="error" onClick={handleClose}>
