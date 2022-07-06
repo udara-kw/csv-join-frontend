@@ -40,7 +40,14 @@ export function getJwt() {
   sessionStorage.getItem("userToken");
 }
 
-export async function registerNewUser(username, email, password, role, secret) {
+export async function viewAllUsers() {
+  // eslint-disable-next-line no-useless-concat
+  const url = `${config.BASEURL}` + "/viewAllUsers";
+  const configs = { headers: { Authorization: `Bearer ${sessionStorage.getItem("userToken")}` } };
+  return http.get(url, configs);
+}
+
+export async function registerNewUser(username, email, password, secret) {
   // eslint-disable-next-line no-useless-concat
   const url = `${config.BASEURL}` + "/addUser";
   const configs = { headers: { Authorization: `Bearer ${sessionStorage.getItem("userToken")}` } };
@@ -64,6 +71,13 @@ export async function changePassword(oldPassword, newPassword) {
     newPassword,
   };
   return http.post(url, data, configs);
+}
+
+export async function deleteExistingUser(username) {
+  // eslint-disable-next-line no-useless-concat
+  const url = `${config.BASEURL}` + `/deleteUser/${username}`;
+  const configs = { headers: { Authorization: `Bearer ${sessionStorage.getItem("userToken")}` } };
+  return http.delete(url, configs);
 }
 
 export async function getCSVData() {
