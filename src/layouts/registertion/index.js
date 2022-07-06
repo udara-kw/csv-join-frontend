@@ -48,7 +48,7 @@ const schema = yup.object().shape({
       "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
     )
     .label("Password"),
- master_secret: yup.string().required("Master secret is required").label("master secret"),
+ master_secret: yup.string().required("Master secret is required").label("Master secret"),
 });
 function Registration() {
   const navigate = useNavigate();
