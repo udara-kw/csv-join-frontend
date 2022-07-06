@@ -62,6 +62,7 @@ function Basic() {
     marginTop: "10px",
   };
   const [errMsg, setErrMsg] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [errCode, setErrCode] = useState(0);
   // alert 200 404 500
   const [showSuccess, setShowSuccess] = useState(false);
@@ -71,15 +72,9 @@ function Basic() {
   useEffect(() => {
     setErrMsg("");
     setErrCode(0);
-    setShowSuccess(true);
-    setShowWarning(false);
-    setShowDanger(false);
   }, []);
 
   const handleSubmit = async (values) => {
-    console.log(values);
-    console.log(errMsg);
-    console.log(errCode);
     try {
       const response = await login(values.email, values.password);
 

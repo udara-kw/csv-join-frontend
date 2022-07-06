@@ -116,7 +116,6 @@ export default function App() {
   const getRoutes = (allRoutes) =>
     allRoutes.map((route) => {
       if (getUserRole() === "Admin") {
-        console.log("getUserRole is admin");
         if (route.collapse) {
           return getRoutes(route.collapse);
         }

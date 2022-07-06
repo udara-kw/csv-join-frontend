@@ -47,6 +47,7 @@ function Notifications() {
   };
 
   const [errMsg, setErrMsg] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [errCode, setErrCode] = useState(0);
   // alert 200 404 500
   const [showSuccess, setShowSuccess] = useState(false);
@@ -56,9 +57,6 @@ function Notifications() {
   useEffect(() => {
     setErrMsg("");
     setErrCode(0);
-    setShowSuccess(true);
-    setShowWarning(false);
-    setShowDanger(false);
   }, []);
 
   // file
@@ -71,7 +69,6 @@ function Notifications() {
     setFilesErr(false);
     const Files = newFiles.filter((file) => !files.find((f) => f.data === file.data));
     setFiles([...files, ...Files]);
-    console.log(typeof files);
   };
 
   const handleDelete = (deleted) => {
@@ -79,8 +76,6 @@ function Notifications() {
     if (files.length - 1 === 0) {
       setFilesErr(true);
     }
-
-    console.log(`total file count: ${files.length - 1}`);
   };
 
   // dynamic input
@@ -105,19 +100,11 @@ function Notifications() {
   // submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("handleSubmit called");
-    console.log(files.map((f) => JSON.stringify(f)));
-    console.log(`tags :${tags}`);
-    console.log(`tagErr :${tagErr}`);
-    console.log(`tagTouched :${tagTouched}`);
-    console.log(errCode);
-
     try {
       const response = uploadCSVFile(
         files.map((f) => JSON.stringify(f)),
         tags
       );
-
       if (response) {
         setFiles([]);
         setTags([]);
@@ -125,8 +112,6 @@ function Notifications() {
         setShowSuccess(true);
         setErrMsg("Add new record successful");
       }
-
-      // navigate(from, { replace: true });
     } catch (err) {
       if (!err?.response) {
         setErrMsg("No Server Response");
@@ -206,7 +191,6 @@ function Notifications() {
                       onChange={(event, newValue) => {
                         setTouchedErr(true);
                         setTags(newValue);
-                        console.log(`newValue.length : ${newValue.length}`);
                         if (newValue.length > 0) {
                           setTagErr(false);
                         } else {

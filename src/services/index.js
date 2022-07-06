@@ -8,8 +8,6 @@ const config = require("../config.json");
 // eslint-disable-next-line import/prefer-default-export
 
 export async function login(email, password) {
-  // eslint-disable-next-line no-console
-  console.log(email, password);
   // eslint-disable-next-line no-useless-concat
   const { data } = await http.post(`${config.BASEURL}` + "/login", {
     user: {
@@ -83,6 +81,13 @@ export async function deleteExistingUser(username) {
 export async function getCSVData() {
   // eslint-disable-next-line no-useless-concat
   const url = `${config.BASEURL}` + "/csv/viewAll/" + `${sessionStorage.getItem("username")}`;
+  const configs = { headers: { Authorization: `Bearer ${sessionStorage.getItem("userToken")}` } };
+  return http.get(url, configs);
+}
+
+export async function getCSVFilesData() {
+  // eslint-disable-next-line no-useless-concat
+  const url = `${config.BASEURL}` + "/csv/viewAllFiles/" + `${sessionStorage.getItem("username")}`;
   const configs = { headers: { Authorization: `Bearer ${sessionStorage.getItem("userToken")}` } };
   return http.get(url, configs);
 }

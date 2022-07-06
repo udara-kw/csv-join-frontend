@@ -4,7 +4,7 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { Download } from "@mui/icons-material";
 import fileDownload from "js-file-download";
 import MDBox from "../../components/MDBox";
-import { downloadCSVFiles, getCSVData } from "../../services";
+import { downloadCSVFiles, getCSVFilesData } from "../../services";
 
 export default function CSVFileDownload() {
   const [csvColumns, setCsvColumns] = useState([]);
@@ -18,7 +18,7 @@ export default function CSVFileDownload() {
   async function retrieveCSVData() {
     try {
       // eslint-disable-next-line no-shadow
-      const { data } = await getCSVData();
+      const { data } = await getCSVFilesData();
       setCsvRows(data.rows);
       setCsvColumns(data.columns);
       // eslint-disable-next-line no-empty
@@ -28,7 +28,7 @@ export default function CSVFileDownload() {
   const [selectedRows, setSelectedRows] = useState([]);
 
   async function downloadFiles() {
-    const data = await downloadCSVFiles([...new Set(selectedRows.map((row) => row.filename))]);
+    const data = await downloadCSVFiles([...new Set(selectedRows.map((row) => row.name))]);
     data.forEach((file) => {
       fileDownload(file.content, file.filename);
     });

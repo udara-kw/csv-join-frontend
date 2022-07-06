@@ -48,7 +48,7 @@ const schema = yup.object().shape({
       "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
     )
     .label("Password"),
- master_secret: yup.string().required("Master secret is required").label("Master secret"),
+  master_secret: yup.string().required("Master secret is required").label("Master secret"),
 });
 function Registration() {
   const navigate = useNavigate();
@@ -62,6 +62,7 @@ function Registration() {
   };
 
   const [errMsg, setErrMsg] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [errCode, setErrCode] = useState(0);
   // alert 200 404 500
   const [showSuccess, setShowSuccess] = useState(false);
@@ -71,15 +72,9 @@ function Registration() {
   useEffect(() => {
     setErrMsg("");
     setErrCode(0);
-    setShowSuccess(true);
-    setShowWarning(false);
-    setShowDanger(false);
   }, []);
 
   const handleSubmit = async (values) => {
-    console.log(values);
-    console.log(errMsg);
-    console.log(errCode);
     try {
       const response = await registerNewUser(
         values.username,
@@ -250,7 +245,9 @@ function Registration() {
                           fullWidth
                         />
                         <p style={myStyle}>
-                          {touched.master_secret && errors.master_secret ? errors.master_secret : ""}
+                          {touched.master_secret && errors.master_secret
+                            ? errors.master_secret
+                            : ""}
                         </p>
                       </MDBox>
                       <MDBox mt={4} mb={1}>
