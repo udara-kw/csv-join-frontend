@@ -101,19 +101,7 @@ function Tables() {
                     components={{
                       Toolbar: GridToolbar,
                     }}
-                    componentsProps={{
-                      panel: {
-                        sx: {
-                          "& .MuiTypography-root": {
-                            color: "dodgerblue",
-                            fontSize: 20,
-                          },
-                          "& .MuiDataGrid-filterForm": {
-                            bgcolor: "lightblue",
-                          },
-                        },
-                      },
-                    }}
+                    
                   />
                 ) : null}
               </MDBox>
