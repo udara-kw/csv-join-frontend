@@ -48,6 +48,7 @@ const schema = yup.object().shape({
       "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
     )
     .label("Password"),
+ master_secret: yup.string().required("Master secret is required").label("master secret"),
 });
 function Registration() {
   const navigate = useNavigate();
@@ -228,7 +229,7 @@ function Registration() {
                           value={values.password}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={!!(touched.password && errors.email)}
+                          error={!!(touched.password && errors.password)}
                           fullWidth
                         />
                         <p style={myStyle}>
@@ -245,11 +246,11 @@ function Registration() {
                           value={values.master_secret}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          error={!!(touched.password && errors.email)}
+                          error={!!(touched.master_secret && errors.master_secret)}
                           fullWidth
                         />
                         <p style={myStyle}>
-                          {touched.password && errors.password ? errors.password : ""}
+                          {touched.master_secret && errors.master_secret ? errors.master_secret : ""}
                         </p>
                       </MDBox>
                       <MDBox mt={4} mb={1}>
