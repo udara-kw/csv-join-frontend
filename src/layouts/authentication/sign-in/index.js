@@ -39,7 +39,7 @@ import { login } from "../../../services";
 
 // eslint-disable-next-line no-unused-vars
 const schema = yup.object().shape({
-  email: yup.string().email("Enter valid email").required("Email is required").label("Email"),
+  email: yup.string().required("Name is required").label("Name"),
   password: yup
     .string()
     .required("Password is required")
@@ -152,7 +152,7 @@ function Basic() {
           )}
 
           <Formik
-            // validationSchema={schema}
+            validationSchema={schema}
             onSubmit={handleSubmit}
             initialValues={{
               email: "",
