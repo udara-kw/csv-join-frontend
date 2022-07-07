@@ -101,7 +101,6 @@ function Tables() {
                     components={{
                       Toolbar: GridToolbar,
                     }}
-                    
                   />
                 ) : null}
               </MDBox>

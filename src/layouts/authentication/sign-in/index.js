@@ -95,12 +95,17 @@ function Basic() {
         setErrMsg(err.response.data.message);
         setErrCode(400);
         setShowWarning(true);
+      } else if (err.response?.status === 403) {
+        setErrMsg("Username or password is wrong");
+        setErrCode(403);
+        setShowWarning(true);
       } else if (err.response?.status === 401) {
         setErrMsg("Invalid password");
         setErrCode(401);
         setShowWarning(true);
       } else {
         setErrMsg("Login Failed");
+        setShowWarning(true);
       }
     }
   };
