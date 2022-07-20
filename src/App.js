@@ -181,7 +181,7 @@ export default function App() {
         {layout === "vr" && <Configurator />}
         <Routes>
           {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/sign-in" />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </ThemeProvider>
     </CacheProvider>
@@ -206,12 +206,12 @@ export default function App() {
       <Routes>
         {getRoutes(routes)}
         <Route
-          path="sign-in"
+          path="/"
           element={
             ["Admin", "User"].includes(getUserRole()) ? <Navigate to="/all-record" /> : <SignIn />
           }
         />
-        <Route path="*" element={<Navigate to="/sign-in" />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </ThemeProvider>
   );
