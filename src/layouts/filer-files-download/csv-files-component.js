@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { Download } from "@mui/icons-material";
+import { Delete, Download } from "@mui/icons-material";
 import fileDownload from "js-file-download";
 import MDBox from "../../components/MDBox";
 import { downloadCSVFiles, getCSVFilesData } from "../../services";
@@ -38,16 +38,28 @@ export default function CSVFileDownload() {
     <>
       <MDBox display="flex" justifyContent="flex-end">
         {selectedRows.length >= 0 ? (
-          <Button
-            xs={{ mb: 3 }}
-            size="large"
-            onClick={() => {
-              downloadFiles();
-            }}
-            endIcon={<Download />}
-          >
-            Download
+          <MDBox>
+            <Button
+              xs={{ mb: 3 }}
+              size="large"
+              onClick={() => {
+                downloadFiles();
+              }}
+              endIcon={<Delete />}
+            >
+              Delete
+            </Button>
+            <Button
+              xs={{ mb: 3 }}
+              size="large"
+              onClick={() => {
+                downloadFiles();
+              }}
+              endIcon={<Download />}
+            >
+              Download
           </Button>
+          </MDBox>
         ) : null}
       </MDBox>
       <div style={{ height: 600 }}>
