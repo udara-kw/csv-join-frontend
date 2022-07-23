@@ -98,19 +98,30 @@ function Notifications() {
     }
   };
   // submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = uploadCSVFile(
+      setShowSuccess(false);
+      setShowDanger(false);
+      setShowWarning(false);
+      const response = await uploadCSVFile(
         files.map((f) => JSON.stringify(f)),
         tags
       );
+      setFiles([]);
+      setTags([]);
       if (response) {
-        setFiles([]);
-        setTags([]);
-        setErrCode(200);
-        setShowSuccess(true);
-        setErrMsg("Add new record successful");
+        if (response.data?.success === true) {
+          setErrCode(200);
+          setShowSuccess(true);
+          setErrMsg("Add new records successful");
+        } else {
+          setErrCode(400);
+          setErrMsg(
+            `Add new records successful! | (Duplicate rows: ${response.data?.duplicateRowCount}) | Rows without phone: ${response.data?.withoutPhoneNumberRowCount}`
+          );
+          setShowWarning(true);
+        }
       }
     } catch (err) {
       if (!err?.response) {
@@ -128,7 +139,8 @@ function Notifications() {
         navigate("/not-found");
         setErrCode(403);
       } else {
-        setErrMsg("Registration Failed");
+        setErrMsg("Upload Failed");
+        setShowWarning(true);
       }
     }
   };

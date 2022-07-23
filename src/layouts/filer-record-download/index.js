@@ -28,7 +28,9 @@ import Footer from "examples/Footer";
 
 import React, { useEffect, useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import Lottie from "react-lottie";
 import { getCSVData } from "../../services";
+import LoadingGif from "./loading.json";
 // import { createTheme } from "@mui/material/styles";
 
 // const useStyles = createTheme({
@@ -64,6 +66,15 @@ function Tables() {
   }
 
   const [pageSize, setPageSize] = useState(10);
+
+  const lottieOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: LoadingGif,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
   return (
     <DashboardLayout>
@@ -102,7 +113,9 @@ function Tables() {
                       Toolbar: GridToolbar,
                     }}
                   />
-                ) : null}
+                ) : (
+                  <Lottie options={lottieOptions} height="100px" width="100px" />
+                )}
               </MDBox>
             </Card>
           </Grid>
